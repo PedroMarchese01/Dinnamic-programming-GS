@@ -1,1 +1,9 @@
-#oi bem vindo ao inicio do projeto fico feliz que passou por aqui!
+from controller.telemetry_controller import start_application
+
+
+def main():
+    start_application()
+
+
+if __name__ == "__main__":
+    main()
