@@ -15,10 +15,24 @@ except ImportError:
 REPORTS_PATH = Path("reports")
 
 STATUS_LABELS = {
-    "CRITICAL": "Criticos",
+    "CRITICAL": "Críticos",
     "WARNING": "Em alerta",
-    "STABLE": "Estaveis",
+    "STABLE": "Estáveis",
 }
+
+ALERT_LABELS = {
+    "LOW_OXYGEN": "Oxigênio baixo",
+    "HIGH_CO2": "CO2 elevado",
+    "LOW_WATER_RESERVE": "Reserva de água baixa",
+    "UNSAFE_TEMPERATURE": "Temperatura fora do ideal",
+    "UNSAFE_HUMIDITY": "Umidade fora do ideal",
+    "LOW_PLANT_HEALTH": "Saúde das plantas baixa",
+    "LOW_SOLAR_ENERGY": "Energia solar baixa",
+}
+
+
+def format_alert_label(alert):
+    return ALERT_LABELS.get(alert, alert)
 
 
 def build_processed_dataframe(records):
@@ -38,10 +52,12 @@ def count_alert_occurrences(records):
 
     for record in records:
         for alert in record.get("alerts", []):
-            if alert not in alert_counts:
-                alert_counts[alert] = 0
+            alert_label = format_alert_label(alert)
 
-            alert_counts[alert] += 1
+            if alert_label not in alert_counts:
+                alert_counts[alert_label] = 0
+
+            alert_counts[alert_label] += 1
 
     return alert_counts
 
@@ -119,7 +135,7 @@ def save_alerts_chart(records):
 
     plt.figure(figsize=(10, 6))
     plt.barh(dataframe["alerta"], dataframe["quantidade"], color="#2a9d8f")
-    plt.title("Ocorrencias por Tipo de Alerta")
+    plt.title("Ocorrências por Tipo de Alerta")
     plt.xlabel("Quantidade")
     plt.ylabel("Tipo de alerta")
     plt.gca().invert_yaxis()

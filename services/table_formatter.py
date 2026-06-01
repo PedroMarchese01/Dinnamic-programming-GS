@@ -3,24 +3,34 @@ import pandas as pd
 
 DISPLAY_COLUMNS = {
     "id": "ID",
-    "timestamp": "Horario",
+    "timestamp": "Horário",
     "sector": "Setor",
     "oxygen_percent": "O2 (%)",
     "co2_ppm": "CO2 (ppm)",
-    "temperature_celsius": "Temp (C)",
+    "temperature_celsius": "Temp (°C)",
     "humidity_percent": "Umidade (%)",
-    "water_reserve_liters": "Agua (L)",
+    "water_reserve_liters": "Água (L)",
     "solar_energy_kw": "Energia (kW)",
-    "plant_health_percent": "Saude (%)",
+    "plant_health_percent": "Saúde (%)",
     "status": "Status",
     "risk_score": "Risco",
     "alerts": "Alertas",
 }
 
 STATUS_LABELS = {
-    "CRITICAL": "CRITICO",
+    "CRITICAL": "CRÍTICO",
     "WARNING": "EM ALERTA",
-    "STABLE": "ESTAVEL",
+    "STABLE": "ESTÁVEL",
+}
+
+ALERT_LABELS = {
+    "LOW_OXYGEN": "oxigênio baixo",
+    "HIGH_CO2": "CO2 elevado",
+    "LOW_WATER_RESERVE": "reserva de água baixa",
+    "UNSAFE_TEMPERATURE": "temperatura fora do ideal",
+    "UNSAFE_HUMIDITY": "umidade fora do ideal",
+    "LOW_PLANT_HEALTH": "saúde das plantas baixa",
+    "LOW_SOLAR_ENERGY": "energia solar baixa",
 }
 
 
@@ -28,7 +38,8 @@ def normalize_alerts(alerts):
     if not isinstance(alerts, list) or len(alerts) == 0:
         return "nenhum"
 
-    return ", ".join(alerts)
+    alert_labels = [ALERT_LABELS.get(alert, alert) for alert in alerts]
+    return ", ".join(alert_labels)
 
 
 def normalize_status(status):
@@ -72,8 +83,8 @@ def print_records_table(records, limit):
     hidden_records = len(dataframe) - len(preview)
 
     if hidden_records > 0:
-        print(f"... mais {hidden_records} registros nao exibidos.")
-        print(f"A interface mostra uma previa de {limit} registros por consulta.")
+        print(f"... mais {hidden_records} registros não exibidos.")
+        print(f"A interface mostra uma prévia de {limit} registros por consulta.")
 
 
 def print_single_record_table(record):

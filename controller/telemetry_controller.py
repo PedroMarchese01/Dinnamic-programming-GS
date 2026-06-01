@@ -17,7 +17,7 @@ def show_welcome():
     print()
     print("=" * 56)
     print("Oi, bem-vindo ao AgroSphere!")
-    print("Sistema de telemetria para suporte agricola em ambientes extremos.")
+    print("Sistema de telemetria para suporte agrícola em ambientes extremos.")
     print("=" * 56)
 
 
@@ -28,11 +28,11 @@ def show_menu():
     print("-" * 56)
     print("1 - Processar dados")
     print("2 - Consultar dados processados")
-    print("3 - Ver dados nao processados")
-    print("4 - Gerar nova base de dados aleatorios")
+    print("3 - Ver dados não processados")
+    print("4 - Gerar nova base de dados aleatórios")
     print("5 - Buscar dado processado por ID")
     print("6 - Limpar dados processados")
-    print("7 - Ver resumo e gerar graficos")
+    print("7 - Ver resumo e gerar gráficos")
     print("0 - Sair")
     print("-" * 56)
 
@@ -43,9 +43,9 @@ def show_processed_data_menu():
     print("CONSULTA DE DADOS PROCESSADOS")
     print("-" * 56)
     print("1 - Ver todos")
-    print("2 - Ver dados criticos")
+    print("2 - Ver dados críticos")
     print("3 - Ver dados em alerta")
-    print("4 - Ver dados estaveis")
+    print("4 - Ver dados estáveis")
     print("0 - Voltar")
     print("-" * 56)
 
@@ -55,7 +55,7 @@ def ask_int(message):
         try:
             return int(input(message))
         except ValueError:
-            print("Digite um numero inteiro valido.")
+            print("Digite um número inteiro válido.")
 
 
 def ask_positive_int(message):
@@ -65,7 +65,7 @@ def ask_positive_int(message):
         if value > 0:
             return value
 
-        print("Digite um numero maior que zero.")
+        print("Digite um número maior que zero.")
 
 
 def ask_minimum_int(message, minimum):
@@ -75,7 +75,7 @@ def ask_minimum_int(message, minimum):
         if value >= minimum:
             return value
 
-        print(f"Digite um numero maior ou igual a {minimum}.")
+        print(f"Digite um número maior ou igual a {minimum}.")
 
 
 def generate_random_timestamp(index):
@@ -86,10 +86,10 @@ def generate_random_timestamp(index):
 
 def build_random_telemetry_record(record_id):
     modules = [
-        "Modulo-Hidroponico-A",
-        "Modulo-Hidroponico-B",
-        "Modulo-Biorreator-C",
-        "Modulo-Reciclagem-D",
+        "Módulo-Hidropônico-A",
+        "Módulo-Hidropônico-B",
+        "Módulo-Biorreator-C",
+        "Módulo-Reciclagem-D",
     ]
     module_name = random.choice(modules)
     sector_number = random.randint(1, 10)
@@ -119,7 +119,7 @@ def build_random_database(quantity):
 
 def generate_new_random_database():
     quantity = ask_minimum_int(
-        f"Quantos registros deseja gerar? Minimo obrigatorio: {DEFAULT_RANDOM_RECORDS}: ",
+        f"Quantos registros deseja gerar? Mínimo obrigatório: {DEFAULT_RANDOM_RECORDS}: ",
         DEFAULT_RANDOM_RECORDS,
     )
 
@@ -128,7 +128,7 @@ def generate_new_random_database():
     save_json_data([], OUTPUT_PATH)
 
     print()
-    print(f"Nova base nao processada criada com {quantity} registros.")
+    print(f"Nova base não processada criada com {quantity} registros.")
     print("Os dados processados foram limpos para evitar mistura de bases.")
 
 
@@ -137,11 +137,11 @@ def process_data():
 
     if len(raw_records) == 0:
         print()
-        print("Nenhum dado nao processado ainda.")
+        print("Nenhum dado não processado ainda.")
         return
 
     print()
-    print(f"Existem {len(raw_records)} dados nao processados na fila.")
+    print(f"Existem {len(raw_records)} dados não processados na fila.")
     quantity = ask_positive_int("Quantos registros deseja processar agora? ")
 
     try:
@@ -155,13 +155,13 @@ def process_data():
 
     print()
     print("-" * 56)
-    print("Processamento concluido!")
+    print("Processamento concluído!")
     print(f"Registros que estavam na fila: {result['loaded']}")
     print(f"Registros processados pela fila FIFO: {result['processed']}")
     print(f"Registros restantes na fila: {result['remaining']}")
-    print(f"Estaveis: {summary['stable']}")
+    print(f"Estáveis: {summary['stable']}")
     print(f"Em alerta: {summary['warning']}")
-    print(f"Criticos: {summary['critical']}")
+    print(f"Críticos: {summary['critical']}")
     print("-" * 56)
 
 
@@ -181,7 +181,7 @@ def show_records(records, title):
 
 def show_raw_data():
     records = load_json_data(INPUT_PATH)
-    show_records(records, "Dados nao processados")
+    show_records(records, "Dados não processados")
 
 
 def load_processed_records():
@@ -227,15 +227,15 @@ def handle_processed_data_option(option):
     if option == "1":
         show_all_processed_data()
     elif option == "2":
-        show_processed_records_by_status("CRITICAL", "Dados que apresentam risco critico")
+        show_processed_records_by_status("CRITICAL", "Dados que apresentam risco crítico")
     elif option == "3":
         show_processed_records_by_status("WARNING", "Dados em alerta")
     elif option == "4":
-        show_processed_records_by_status("STABLE", "Dados estaveis")
+        show_processed_records_by_status("STABLE", "Dados estáveis")
     elif option == "0":
         return False
     else:
-        print("Opcao invalida.")
+        print("Opção inválida.")
 
     return True
 
@@ -245,7 +245,7 @@ def show_processed_data_controller():
 
     while keep_running:
         show_processed_data_menu()
-        option = input("Escolha uma opcao: ").strip()
+        option = input("Escolha uma opção: ").strip()
         keep_running = handle_processed_data_option(option)
 
 
@@ -263,10 +263,10 @@ def search_processed_data():
     print()
 
     if found_record is None:
-        print("Registro processado nao encontrado.")
+        print("Registro processado não encontrado.")
         return
 
-    print("Registro encontrado pela busca binaria recursiva:")
+    print("Registro encontrado pela busca binária recursiva:")
     print_single_record_table(found_record)
 
 
@@ -300,24 +300,24 @@ def show_summary_and_charts():
     print("RESUMO OPERACIONAL")
     print("-" * 56)
     print(f"Total processado: {summary['total_processados']}")
-    print(f"Estaveis: {summary['estaveis']}")
+    print(f"Estáveis: {summary['estaveis']}")
     print(f"Em alerta: {summary['em_alerta']}")
-    print(f"Criticos / urgentes: {summary['criticos']}")
+    print(f"Críticos / urgentes: {summary['criticos']}")
     print(f"Total de alertas detectados: {summary['total_alertas']}")
     print("-" * 56)
 
     if not chart_paths["matplotlib_available"]:
-        print("Matplotlib nao esta instalado neste ambiente.")
-        print("Para gerar os graficos, execute: python -m pip install -r requirements.txt")
+        print("Matplotlib não está instalado neste ambiente.")
+        print("Para gerar os gráficos, execute: python -m pip install -r requirements.txt")
         return
 
     if chart_paths["status_chart"] is not None:
-        print(f"Grafico de status salvo em: {chart_paths['status_chart']}")
+        print(f"Gráfico de status salvo em: {chart_paths['status_chart']}")
 
     if chart_paths["alerts_chart"] is not None:
-        print(f"Grafico de alertas salvo em: {chart_paths['alerts_chart']}")
+        print(f"Gráfico de alertas salvo em: {chart_paths['alerts_chart']}")
     else:
-        print("Nenhum alerta encontrado para gerar grafico de alertas.")
+        print("Nenhum alerta encontrado para gerar gráfico de alertas.")
 
 
 def handle_option(option):
@@ -336,10 +336,10 @@ def handle_option(option):
     elif option == "7":
         show_summary_and_charts()
     elif option == "0":
-        print("Encerrando o AgroSphere. Ate logo!")
+        print("Encerrando o AgroSphere. Até logo!")
         return False
     else:
-        print("Opcao invalida.")
+        print("Opção inválida.")
 
     return True
 
@@ -351,5 +351,5 @@ def start_application():
 
     while keep_running:
         show_menu()
-        option = input("Escolha uma opcao: ").strip()
+        option = input("Escolha uma opção: ").strip()
         keep_running = handle_option(option)
